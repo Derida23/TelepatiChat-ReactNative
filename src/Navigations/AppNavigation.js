@@ -8,7 +8,7 @@ import ProfileScreen from '../Screens/Main/ProfileScreen';
 const AppStack = createMaterialTopTabNavigator ({
     Chat : ChatScreen,
     Maps : MapsScreen,
-    Profile : ProfileScreen,
+    Friend : ProfileScreen,
   },
   {
     initialRouteName: 'Chat',

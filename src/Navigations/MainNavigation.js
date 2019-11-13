@@ -5,9 +5,11 @@ import LoadingScreen from '../Screens/LoadingScreen';
 import LoginScreen from '../Screens/LoginScreen';
 import RegisterScreen from '../Screens/RegisterScreen';
 import AppScreen from '../Screens/AppScreen';
+import SetProfileScreen from '../Screens/Main/SetProfileScreen';
 
 const AppStack = createStackNavigator ({
-    App : AppScreen
+    App : AppScreen,
+    SetProfile : SetProfileScreen
   },
   {
     initialRouteName: 'App',
