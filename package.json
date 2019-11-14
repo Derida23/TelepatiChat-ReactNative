@@ -17,14 +17,17 @@
     "react-native-geolocation-service": "^3.1.0",
     "react-native-gesture-handler": "^1.5.0",
     "react-native-gifted-chat": "^0.11.3",
+    "react-native-image-picker": "^1.1.0",
     "react-native-material-menu": "^1.0.0",
     "react-native-reanimated": "^1.4.0",
     "react-native-screens": "^1.0.0-alpha.23",
+    "react-native-simple-dialogs": "^1.2.0",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3",
     "react-navigation-tabs": "^2.5.6",
-    "react-navigation-transitions": "^1.0.12"
+    "react-navigation-transitions": "^1.0.12",
+    "rn-fetch-blob": "^0.11.2"
   },
   "devDependencies": {
     "@babel/core": "7.7.2",
