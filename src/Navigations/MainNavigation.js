@@ -9,7 +9,7 @@ import SetProfileScreen from '../Screens/Main/SetProfileScreen';
 
 const AppStack = createStackNavigator ({
     App : AppScreen,
-    SetProfile : SetProfileScreen
+    SetProfile : SetProfileScreen,
   },
   {
     initialRouteName: 'App',
