@@ -1,9 +1,20 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {AsyncStorage} from 'react-native';
-// import styles from '../constant/styles';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+  Image,
+  TouchableHighlight,
+} from 'react-native';
+
 import firebase from 'firebase';
-import {GiftedChat} from 'react-native-gifted-chat';
 import {Database} from '../../Configs/Firechat';
+
+import {GiftedChat, Bubble, Composer, Send} from 'react-native-gifted-chat';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default class SetChatScreen extends Component {
 
@@ -11,13 +22,13 @@ export default class SetChatScreen extends Component {
     message: '',
     messageList: [],
     person: this.props.navigation.getParam('item'),
+    status:''
   };
 
 
   onSend = async () => {
     if (this.state.message.length > 0) {
-      let msgId = firebase
-        .database()
+      let msgId = Database
         .ref('messages')
         .child(this.state.userId)
         .child(this.state.person.id)
@@ -49,8 +60,7 @@ export default class SetChatScreen extends Component {
           '/' +
           msgId
       ] = message;
-      firebase
-        .database()
+      Database
         .ref()
         .update(updates);
       this.setState({message: ''});
@@ -58,13 +68,11 @@ export default class SetChatScreen extends Component {
   };
 
   componentDidMount = async () => {
-    console.log('props',this.props.navigation.getParam('item', {}));
     const userId = await AsyncStorage.getItem('userid');
     const userName = await AsyncStorage.getItem('user.name');
     const userAvatar = await AsyncStorage.getItem('user.photo');
     this.setState({userId, userName, userAvatar});
-    firebase
-      .database()
+    Database
       .ref('messages')
       .child(this.state.userId)
       .child(this.state.person.id)
@@ -74,19 +82,129 @@ export default class SetChatScreen extends Component {
         }));
       });
   };
+
+  renderBubble(props) {
+   return (
+     <Bubble
+       {...props}
+       wrapperStyle={{
+         right: {
+           backgroundColor: '#694be2',
+           borderTopLeftRadius:7,
+           borderTopRightRadius:7,
+           borderBottomRightRadius:7,
+           borderBottomLeftRadius:0,
+         },
+         left: {
+           borderTopLeftRadius:7,
+           borderTopRightRadius:7,
+           borderBottomRightRadius:7,
+           borderBottomLeftRadius:0,
+         },
+       }}
+     />
+   );
+ }
+
+  renderSend(props) {
+    return (
+      <Send {...props}>
+        <View
+          style={{
+            width: 54,
+            height: 44,
+            borderTopLeftRadius:25,
+            borderBottomLeftRadius:25,
+            marginBottom:0,
+            marginHorizontal: 5,
+            backgroundColor:'#694be2',
+            justifyContent:'center',
+            alignItems:'center'
+          }}>
+          <Icon name={'ios-send'} size={28} color={'white'}/>
+        </View>
+      </Send>
+    );
+  }
+
   render() {
     return (
-      <GiftedChat
-        text={this.state.message}
-        onInputTextChanged={val => {
-          this.setState({message: val});
-        }}
-        messages={this.state.messageList}
-        onSend={() => this.onSend()}
-        user={{
-          _id: this.state.userId,
-        }}
-      />
+      <Fragment>
+        <View style={styles.header}>
+          <>
+            <View style={styles.img}>
+              <Image source={{uri: this.state.person.photo}} style={styles.photo} />
+            </View>
+            <View style={{marginLeft: 5}}>
+              <Text style={styles.heading}>{this.state.person.name}</Text>
+              {this.state.person.status == 'Online' ? (
+                <View style={{flexDirection:'row'}}>
+                  <Icon name={'ios-disc'} size={10} color={'green'}/>
+                  <Text style={styles.off}>{this.state.person.status}</Text>
+                </View>
+              ) : (
+                <View style={{flexDirection:'row',  alignItems:'center'}}>
+                  <Icon name={'ios-disc'} size={10} color={'red'}/>
+                  <Text style={styles.off}>{this.state.person.status}</Text>
+                </View>
+              )}
+            </View>
+          </>
+        </View>
+
+        <GiftedChat
+          renderBubble={this.renderBubble}
+          renderSend={this.renderSend}
+          text={this.state.message}
+          onInputTextChanged={val => {
+            this.setState({message: val});
+          }}
+          messages={this.state.messageList}
+          onSend={() => this.onSend()}
+          user={{
+            _id: this.state.userId,
+          }}
+        />
+      </Fragment>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  photo: {
+    flex: 1,
+    width: '100%',
+    resizeMode: 'cover',
+  },
+  img: {
+    backgroundColor: 'silver',
+    width: 41,
+    height: 41,
+    borderRadius: 50,
+    marginHorizontal: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  heading: {
+    color: 'white',
+    fontSize: 21,
+    fontWeight: '700',
+    width: 'auto',
+  },
+  header: {
+    backgroundColor: '#694be2',
+    height: 70,
+    width: '100%',
+    paddingHorizontal: 12,
+    zIndex: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  off:{
+    fontWeight: '200',
+    color: 'whitesmoke',
+    fontSize: 13,
+    paddingLeft: 5
+  },
+});

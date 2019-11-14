@@ -14,6 +14,7 @@
     "firebase": "^7.3.0",
     "react": "16.9.0",
     "react-native": "0.61.4",
+    "react-native-geocoding": "^0.4.0",
     "react-native-geolocation-service": "^3.1.0",
     "react-native-gesture-handler": "^1.5.0",
     "react-native-gifted-chat": "^0.11.3",

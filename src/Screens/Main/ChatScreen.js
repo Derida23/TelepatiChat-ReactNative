@@ -38,7 +38,7 @@ export default class HomeScreen extends React.Component {
   renderItem = ({item}) => {
     return (
       <TouchableOpacity
-        onPress={() => this.props.navigation.navigate('SetChat',{item})}>
+        onPress={() => this.props.screenProps.content.navigate('SetChat',{item})}>
         <View style={styles.row}>
           <Image source={{uri: item.photo}} style={styles.pic} />
           <View>
@@ -50,9 +50,9 @@ export default class HomeScreen extends React.Component {
                 {item.name}
               </Text>
               {item.status == 'Online' ? (
-                <Text style={styles.email}>{item.status}</Text>
+                <Text style={styles.on}>{item.status}</Text>
               ) : (
-                <Text style={styles.status}>{item.status}</Text>
+                <Text style={styles.off}>{item.status}</Text>
               )}
             </View>
             <View style={styles.msgContainer}>
@@ -122,6 +122,16 @@ const styles = StyleSheet.create({
   status: {
     fontWeight: '200',
     color: '#ccc',
+    fontSize: 13,
+  },
+  on:{
+    fontWeight: '200',
+    color: 'green',
+    fontSize: 13,
+  },
+  off:{
+    fontWeight: '200',
+    color: 'red',
     fontSize: 13,
   },
   msgContainer: {

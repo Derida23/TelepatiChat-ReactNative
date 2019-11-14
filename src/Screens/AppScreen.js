@@ -16,7 +16,7 @@ export default class AppScreen extends React.Component {
     return (
       <>
         <HeaderScreen navigation={this.props.navigation}/>
-        <AppNavigation />
+        <AppNavigation screenProps={{content: this.props.navigation}}/>
       </>
     )
   }
