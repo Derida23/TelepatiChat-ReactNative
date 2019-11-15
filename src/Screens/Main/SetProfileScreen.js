@@ -6,7 +6,8 @@ import { View,
   PermissionsAndroid,
   Dimensions,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  BackHandler
 } from 'react-native';
 
 import take from '../../Assets/Images/take.jpg'
@@ -35,12 +36,28 @@ export default class SetProfileScreen extends React.Component {
       imgSource: '',
       uploading: false,
       dialogVisible: false,
+      city:''
     };
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
     setDialogVisible(visible) {
       this.setState({dialogVisible: visible});
     }
+
+    // {/* BACK HANDLER */}
+      componentWillMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+      }
+
+      componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+      }
+
+      handleBackButtonClick() {
+        this.props.navigation.goBack(null);
+        return true;
+      }
 
     componentDidMount = async () => {
       const userId = await AsyncStorage.getItem('userid');
@@ -48,6 +65,12 @@ export default class SetProfileScreen extends React.Component {
       const userAvatar = await AsyncStorage.getItem('user.photo');
       const userEmail = await AsyncStorage.getItem('user.email');
       this.setState({userId, userName, userAvatar, userEmail});
+
+      fetch('https://us1.locationiq.com/v1/reverse.php?key=d17151587b1e23&lat=' + this.state.person.latitude + '&lon=' + this.state.person.longitude + '&format=json')
+        .then((response) => response.json())
+        .then((responseJson) => {
+          this.setState({city: responseJson.address.state_district})
+      })
     };
 
     requestCameraPermission = async () => {
@@ -189,7 +212,7 @@ export default class SetProfileScreen extends React.Component {
         <View style={{flexDirection:'row', justifyContent:'space-between', marginHorizontal:28, marginTop:30}} >
           <View>
             <Text style={{fontSize:16, color:'grey', letterSpacing:2}}>Location</Text>
-            <Text style={{fontSize:23, fontWeight:'500', letterSpacing:1, color:'#404040'}}>Yogyakarta</Text>
+            <Text style={{fontSize:23, fontWeight:'500', letterSpacing:1, color:'#404040'}}>Sleman Regency</Text>
           </View>
           <View style={{justifyContent:'center'}}>
             <Icon name={'md-locate'} size={18} color={'#404040'}/>

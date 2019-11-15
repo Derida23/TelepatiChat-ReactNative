@@ -6,6 +6,7 @@ import { View,
   BackHandler,
   Image
 } from 'react-native';
+
 import * as firebase from 'firebase';
 import Icon from 'react-native-vector-icons/Ionicons'
 import iconChat from '../../Assets/Images/chat-tele.jpg'
@@ -17,8 +18,18 @@ export default class SetFriend extends React.Component {
         person: props.navigation.getParam('item'),
         items: props.navigation.getParam('item'),
         userId: null,
+        city:''
       }
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+  }
+
+  componentDidMount(){
+    fetch('https://us1.locationiq.com/v1/reverse.php?key=d17151587b1e23&lat=' + this.state.person.latitude + '&lon=' + this.state.person.longitude + '&format=json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({city: responseJson.address.state_district})
+          // console.log('ADDRESS GEOCODE is BACK!! => ' + JSON.stringify(responseJson));
+    })
   }
 
   // {/* BACK HANDLER */}
@@ -68,7 +79,7 @@ export default class SetFriend extends React.Component {
           <View style={{flexDirection:'row', justifyContent:'space-between', marginHorizontal:28, marginTop:30}} >
             <View>
               <Text style={{fontSize:16, color:'grey', letterSpacing:2}}>Location</Text>
-              <Text style={{fontSize:23, fontWeight:'500', letterSpacing:1, color:'#404040'}}>Yogyakarta</Text>
+              <Text style={{fontSize:23, fontWeight:'500', letterSpacing:1, color:'#404040'}}>{this.state.city}</Text>
             </View>
             <View style={{justifyContent:'center'}}>
               <Icon name={'md-locate'} size={18} color={'#404040'}/>

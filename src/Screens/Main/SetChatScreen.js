@@ -145,7 +145,7 @@ export default class SetChatScreen extends Component {
                 </View>
               ) : (
                 <View style={{flexDirection:'row',  alignItems:'center'}}>
-                  <Icon name={'ios-disc'} size={10} color={'red'}/>
+                  <Icon name={'ios-disc'} size={10} color={'#C0392B'}/>
                   <Text style={styles.off}>{this.state.person.status}</Text>
                 </View>
               )}

@@ -144,7 +144,7 @@ export default class LoginScreen extends React.Component{
         });
 
       Auth.signInWithEmailAndPassword(email, password)
-        .then(async response => {
+        .then(async response => { 
           Database.ref('/user/' + response.user.uid).update({
             status: 'Online',
             latitude: this.state.latitude || null,

@@ -12,6 +12,7 @@ import { View,
 } from 'react-native';
 
 import {Database, Auth} from '../../Configs/Firechat';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 export default class HomeScreen extends React.Component {
 
@@ -35,32 +36,41 @@ export default class HomeScreen extends React.Component {
     });
   };
 
+
   renderItem = ({item}) => {
     return (
-      <TouchableOpacity
-        onPress={() => this.props.screenProps.content.navigate('SetChat',{item})}>
-        <View style={styles.row}>
-          <Image source={{uri: item.photo}} style={styles.pic} />
-          <View>
-            <View style={styles.nameContainer}>
-              <Text
-                style={styles.nameTxt}
-                numberOfLines={1}
-                ellipsizeMode="tail">
-                {item.name}
-              </Text>
-              {item.status == 'Online' ? (
-                <Text style={styles.on}>{item.status}</Text>
-              ) : (
-                <Text style={styles.off}>{item.status}</Text>
-              )}
-            </View>
-            <View style={styles.msgContainer}>
-              <Text style={styles.status}>{item.email}</Text>
+      <View style={{marginHorizontal:20}}>
+        <TouchableOpacity
+          onPress={() => this.props.screenProps.content.navigate('SetChat',{item})}>
+          <View style={styles.row}>
+            <Image source={{uri: item.photo}} style={styles.pic} />
+            <View>
+              <View style={styles.nameContainer}>
+                <Text
+                  style={styles.nameTxt}
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
+                  {item.name}
+                </Text>
+                {item.status == 'Online' ? (
+                  <View style={{flexDirection:'row', paddingTop:10}}>
+                    <Text style={styles.on}>{item.status}</Text>
+                    <Icon name={'md-mail'} size={15} color={'#694be2'}/>
+                  </View>
+                ) : (
+                  <View style={{flexDirection:'row', paddingTop:10}}>
+                    <Text style={styles.off}>{item.status}</Text>
+                    <Icon name={'md-mail'} size={15} color={'#694be2'}/>
+                  </View>
+                )}
+              </View>
+              <View style={styles.msgContainer}>
+                <Text style={styles.status}>{item.email}</Text>
+              </View>
             </View>
           </View>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     );
   };
 
@@ -101,6 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     padding: 10,
+    paddingTop: 15
   },
   pic: {
     borderRadius: 30,
@@ -128,11 +139,13 @@ const styles = StyleSheet.create({
     fontWeight: '200',
     color: 'green',
     fontSize: 13,
+    paddingRight: 10
   },
   off:{
     fontWeight: '200',
-    color: 'red',
+    color: '#C0392B',
     fontSize: 13,
+    paddingRight: 10
   },
   msgContainer: {
     flexDirection: 'row',
