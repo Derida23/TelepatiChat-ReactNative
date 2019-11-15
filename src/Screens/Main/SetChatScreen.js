@@ -72,6 +72,7 @@ export default class SetChatScreen extends Component {
     const userName = await AsyncStorage.getItem('user.name');
     const userAvatar = await AsyncStorage.getItem('user.photo');
     this.setState({userId, userName, userAvatar});
+    console.log(this.state.person.photo);
     Database
       .ref('messages')
       .child(this.state.userId)
@@ -138,7 +139,7 @@ export default class SetChatScreen extends Component {
             <View style={{marginLeft: 5}}>
               <Text style={styles.heading}>{this.state.person.name}</Text>
               {this.state.person.status == 'Online' ? (
-                <View style={{flexDirection:'row'}}>
+                <View style={{flexDirection:'row', alignItems:'center'}}>
                   <Icon name={'ios-disc'} size={10} color={'green'}/>
                   <Text style={styles.off}>{this.state.person.status}</Text>
                 </View>

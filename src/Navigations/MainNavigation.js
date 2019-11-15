@@ -7,11 +7,13 @@ import RegisterScreen from '../Screens/RegisterScreen';
 import AppScreen from '../Screens/AppScreen';
 import SetProfileScreen from '../Screens/Main/SetProfileScreen';
 import SetChatScreen from '../Screens/Main/SetChatScreen';
+import SetFriendScreen from '../Screens/Main/SetFriendScreen';
 
 const AppStack = createStackNavigator ({
     App : AppScreen,
     SetProfile : SetProfileScreen,
-    SetChat: SetChatScreen
+    SetChat: SetChatScreen,
+    SetFriend: SetFriendScreen
   },
   {
     initialRouteName: 'App',

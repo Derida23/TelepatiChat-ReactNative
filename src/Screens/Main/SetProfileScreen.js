@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from 'react-native-geolocation-service';
 import RNFetchBlob from 'rn-fetch-blob';
 import ImagePicker from 'react-native-image-picker';
+import Geocoder from 'react-native-geocoding';
 
 export default class SetProfileScreen extends React.Component {
   constructor(props) {
@@ -194,7 +195,7 @@ export default class SetProfileScreen extends React.Component {
             <Icon name={'md-locate'} size={18} color={'#404040'}/>
           </View>
         </View>
-        <TouchableOpacity style={{width: 55, height: 55, borderRadius:100, position: 'absolute', right: 20, top: 242}}
+        <TouchableOpacity style={{width: 55, height: 55, borderRadius:100, position: 'absolute', right: "5%", top: "31%"}}
           onPress={this.changeImage}
         >
           <Image source={take}

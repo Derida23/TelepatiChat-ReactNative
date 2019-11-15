@@ -68,20 +68,20 @@ export default class HomeScreen extends React.Component {
     return (
       <>
       <SafeAreaView>
-      {this.state.refreshing === true ? (
-        <ActivityIndicator
-          size="large"
-          color="#05A0E4"
-          style={{marginTop: 150}}
-        />
-      ) : (
-        <FlatList
-          data={this.state.userList}
-          renderItem={this.renderItem}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      )}
-    </SafeAreaView>
+        {this.state.refreshing === true ? (
+          <ActivityIndicator
+            size="large"
+            color="#05A0E4"
+            style={{marginTop: 150}}
+          />
+        ) : (
+          <FlatList
+            data={this.state.userList}
+            renderItem={this.renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        )}
+      </SafeAreaView>
       </>
     );
   }
