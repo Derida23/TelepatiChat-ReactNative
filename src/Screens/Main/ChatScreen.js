@@ -24,8 +24,11 @@ export default class HomeScreen extends React.Component {
 
   componentDidMount = async () => {
     const uid = await AsyncStorage.getItem('userid');
+    
     this.setState({uid: uid, refreshing: true});
-    await Database.ref('/user').on('child_added', data => {
+
+    await Database.ref('/user')
+      .on('child_added', data => {
       let person = data.val();
       if (person.id != uid) {
         this.setState(prevData => {

@@ -78,7 +78,7 @@ export default class SetFriend extends React.Component {
 
           <View style={{flexDirection:'row', justifyContent:'space-between', marginHorizontal:28, marginTop:30}} >
             <View>
-              <Text style={{fontSize:16, color:'grey', letterSpacing:2}}>Location</Text>
+              <Text style={{fontSize:16, color:'green', letterSpacing:2}}>Location</Text>
               <Text style={{fontSize:23, fontWeight:'500', letterSpacing:1, color:'#404040'}}>{this.state.city}</Text>
             </View>
             <View style={{justifyContent:'center'}}>

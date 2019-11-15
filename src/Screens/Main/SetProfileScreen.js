@@ -30,7 +30,7 @@ export default class SetProfileScreen extends React.Component {
       errorMessage: null,
       loading: false,
       updatesEnabled: false,
-      location: {},
+      location: [],
       photo: null,
       imageUri: null,
       imgSource: '',
@@ -66,11 +66,20 @@ export default class SetProfileScreen extends React.Component {
       const userEmail = await AsyncStorage.getItem('user.email');
       this.setState({userId, userName, userAvatar, userEmail});
 
-      fetch('https://us1.locationiq.com/v1/reverse.php?key=d17151587b1e23&lat=' + this.state.person.latitude + '&lon=' + this.state.person.longitude + '&format=json')
+      firebase.database()
+      .ref(`/user/${userId}`)
+      .on('value', (snapshot) => {
+        let data = snapshot.val();
+        let location = Object.values(data);
+        this.setState({location});
+      });
+
+      fetch('https://us1.locationiq.com/v1/reverse.php?key=d17151587b1e23&lat=' + this.state.location[2] + '&lon=' + this.state.location[3] + '&format=json')
         .then((response) => response.json())
         .then((responseJson) => {
           this.setState({city: responseJson.address.state_district})
       })
+
     };
 
     requestCameraPermission = async () => {
@@ -212,7 +221,7 @@ export default class SetProfileScreen extends React.Component {
         <View style={{flexDirection:'row', justifyContent:'space-between', marginHorizontal:28, marginTop:30}} >
           <View>
             <Text style={{fontSize:16, color:'grey', letterSpacing:2}}>Location</Text>
-            <Text style={{fontSize:23, fontWeight:'500', letterSpacing:1, color:'#404040'}}>Sleman Regency</Text>
+            <Text style={{fontSize:23, fontWeight:'500', letterSpacing:1, color:'#404040'}}>{this.state.city}</Text>
           </View>
           <View style={{justifyContent:'center'}}>
             <Icon name={'md-locate'} size={18} color={'#404040'}/>

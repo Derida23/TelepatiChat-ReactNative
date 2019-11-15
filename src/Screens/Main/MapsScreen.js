@@ -15,11 +15,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 import MapView, {Marker} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import {Database, Auth} from '../../Configs/Firechat';
+import marker from '../../Assets/Images/marker.jpg'
 
 const {width, height} = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
 
 export default class MapsScreen extends React.Component {
 
@@ -35,7 +37,6 @@ export default class MapsScreen extends React.Component {
     componentDidMount = async () => {
     await this.getUser();
     await this.getLocation();
-    // const uid = await AsyncStorage.getItem('userid');
   };
 
   getUser = async () => {
@@ -44,9 +45,6 @@ export default class MapsScreen extends React.Component {
     Database.ref('/user').on('child_added', result => {
       let data = result.val();
       if (data !== null && data.id != uid) {
-        // console.log(data);
-        // let users = Object.values(data);
-        // console.log(users);
         this.setState(prevData => {
           return {userList: [...prevData.userList, data]};
         });
@@ -109,11 +107,9 @@ export default class MapsScreen extends React.Component {
             longitude: position.coords.longitude,
             loading: false,
           });
-          // console.warn(position);
         },
         error => {
           this.setState({errorMessage: error});
-          // console.warn(error);
         },
         {
           enableHighAccuracy: true,
@@ -138,13 +134,13 @@ export default class MapsScreen extends React.Component {
             },
           ]}>
           <MapView
-            style={{width: '100%', height: '80%'}}
+            style={{width: '100%', height: '97%'}}
             showsMyLocationButton={true}
             showsIndoorLevelPicker={true}
             showsUserLocation={true}
             zoomControlEnabled={true}
             showsCompass={true}
-            showsTraffic={true}
+            showsTraffic={false}
             region={this.state.mapRegion}
             initialRegion={{
               latitude: -7.755322,
@@ -153,7 +149,6 @@ export default class MapsScreen extends React.Component {
               longitudeDelta: LONGITUDE_DELTA,
             }}>
             {this.state.userList.map(item => {
-              // console.warn(item);
               return (
                 <Marker
                   key={item.id}
@@ -165,8 +160,8 @@ export default class MapsScreen extends React.Component {
                     longitude: item.longitude || 0,
                   }}
                   onCalloutPress={() => {
-                    this.props.navigation.navigate('FriendProfile', {
-                      item,
+                    this.props.screenProps.content.navigate('SetFriend', {
+                      item
                     });
                   }}>
                   <View>
@@ -180,16 +175,15 @@ export default class MapsScreen extends React.Component {
               );
             })}
           </MapView>
-          <View style={styles.menuBottom}>
-            <TouchableOpacity>
-              <Text
-                style={styles.buttonText}
-                onPress={() => this.getLocation()}>
-                Get Current Location
-              </Text>
+            <TouchableOpacity style={{width: 65, height: 65, borderRadius:100, position: 'absolute', right: "10%", top: "88%"}}
+              onPress={() => this.getLocation()}
+            >
+              <Image source={marker}
+              style={{ width: 70, height: 70, borderRadius:100}}
+              />
             </TouchableOpacity>
-          </View>
         </View>
+
     );
   }
 }
@@ -199,7 +193,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FCF5FF',
   },
   input: {
     paddingVertical: 10,
@@ -282,8 +275,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     margin: 5,
-    borderRadius: 10,
+    borderRadius: 5,
     width: '100%',
-    backgroundColor: '#f48023',
+    backgroundColor: '#694be2',
   },
 });
