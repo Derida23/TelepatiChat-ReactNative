@@ -144,7 +144,7 @@ export default class LoginScreen extends React.Component{
         });
 
       Auth.signInWithEmailAndPassword(email, password)
-        .then(async response => { 
+        .then(async response => {
           Database.ref('/user/' + response.user.uid).update({
             status: 'Online',
             latitude: this.state.latitude || null,
@@ -154,11 +154,15 @@ export default class LoginScreen extends React.Component{
           ToastAndroid.show('Login success', ToastAndroid.LONG);
           await AsyncStorage.setItem('userid', response.user.uid);
           await AsyncStorage.setItem('user', JSON.stringify(response.user));
+
+          console.log('latitude',response);
         })
         .catch(error => {
           console.warn(error);
           this.setState({
             errorMessage: error.message,
+            email: '',
+            password: '',
           });
           ToastAndroid.show(this.state.errorMessage, ToastAndroid.LONG);
         });

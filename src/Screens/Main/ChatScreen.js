@@ -6,7 +6,7 @@ import { View,
   TouchableOpacity,
   Image,
   AsyncStorage,
-
+  RefreshControl,
   StyleSheet,
   SafeAreaView,
 } from 'react-native';

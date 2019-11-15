@@ -7,14 +7,14 @@ import {
   Image
 } from 'react-native';
 
-import * as firebase from 'firebase'
+import {Database, Auth} from '../Configs/Firechat';
 import loadingLogo from '../Assets/Images/TeleScreen.png'
 
 class LoadingScreen extends React.Component {
 
   componentDidMount() {
     setTimeout(() => {
-      firebase.auth().onAuthStateChanged(user => {
+      Auth.onAuthStateChanged(user => {
         this.props.navigation.navigate(user ? "App" : "Auth")
       });
     }, 2500)

@@ -131,8 +131,6 @@ export default class RegisterScreen extends React.Component{
           response.user.updateProfile({
           displayName: this.state.name
           })
-          console.log(response);
-          console.warn(response);
           Database.ref('/user/' + response.user.uid)
             .set({
               name: this.state.name,
@@ -151,12 +149,23 @@ export default class RegisterScreen extends React.Component{
                 password: '',
               });
             });
-          ToastAndroid.show(
-            'Your account is successfully registered!',
-            ToastAndroid.LONG,
-          );
+            ToastAndroid.show ('Your account is successfully registered!', ToastAndroid.LONG,);
+            Database.ref('user/')
+              .orderByChild('/email')
+              .equalTo(email)
+              .once('value', result => {
+                let data = result.val();
+                if (data !== null) {
+                  let user = Object.values(data);
 
-          this.props.navigation.navigate('Login');
+                  AsyncStorage.setItem('user.email', user[0].email);
+                  AsyncStorage.setItem('user.name', user[0].name);
+                  AsyncStorage.setItem('user.photo', user[0].photo);
+                }
+              });
+            AsyncStorage.setItem('userid', response.user.uid);
+            AsyncStorage.setItem('user',JSON.stringify(response.user));
+
         })
         .catch(error => {
           this.setState({
