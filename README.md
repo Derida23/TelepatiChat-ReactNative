@@ -37,7 +37,7 @@ Telepathy is a mobile application that features realtime chat and tracking via m
  4. Open project in code editor (vscode, atom or other)
  5. Write in terminal ``npm install`` and ``react-native run-android``
 
-## Download APK
+## Download APK 
 <img width="15" height="15" src="https://cdn1.iconfinder.com/data/icons/logotypes/32/google-drive-512.png"> You can Download the APK [Telepati Chat App](http://bit.ly/APK-Telepati)
 
 
